@@ -1,14 +1,18 @@
-package org.zhd.data.provider.core.entity;
+package org.zhd.data.provider.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.KeySequence;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
 @TableName(value = "basic_dept")
+@KeySequence(value = "BASIC_DEPT_SEQ")
 public class Dpt implements Serializable {
-    @TableId(value = "dept_id")
+    @TableId(value = "dept_id", type = IdType.INPUT)
     private Long deptId;
     // 数据共享
     private Integer basicShare;

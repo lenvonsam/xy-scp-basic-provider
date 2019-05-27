@@ -1,4 +1,4 @@
-package org.zhd.data.provider.core.entity;
+package org.zhd.data.provider.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -45,6 +45,4 @@ public class Org implements Serializable {
     private String orgRemark;
     // 税号
     private String orgTanu;
-
-
 }

@@ -88,7 +88,11 @@
             <artifactId>dubbo-spring-boot-starter</artifactId>
             <version>${dubbo-spring-boot.version}</version>
         </dependency>
-
+        <!-- aop-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
         <!-- 接口服务包-->
         <dependency>
             <groupId>org.xy</groupId>

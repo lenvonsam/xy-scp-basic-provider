@@ -1,4 +1,4 @@
-package org.zhd.data.provider.core.entity;
+package org.zhd.data.provider.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

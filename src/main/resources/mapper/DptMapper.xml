@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.zhd.data.provider.core.mapper.DptMapper">
+<mapper namespace="org.zhd.data.provider.mapper.DptMapper">
     <insert id="insertDpt" useGeneratedKeys="true" keyProperty="deptId">
         <selectKey keyProperty="deptId" resultType="long" order="BEFORE">
             select BASIC_DEPT_SEQ.nextval from dual
@@ -11,7 +11,7 @@
         dept_isleaf, dept_parent, dept_nodecode, basic_share) values(#{deptId}, #{memberCode}, #{deptCode}, #{deptName},
         #{orgCode}, #{deptManager}, #{deptRemark}, #{deptIsleaf}, #{deptParent}, #{deptNodecode}, #{basicShare})
     </insert>
-    <select id="findDptList" resultType="org.zhd.data.provider.core.entity.Dpt">
+    <select id="findDptList" resultType="org.zhd.data.provider.entity.Dpt">
         select * from basic_dept where dept_name like '%' || #{deptName} || '%'
         <if test="deptCode != null">
             and dept_code like '%' || #{deptCode} || '%'
