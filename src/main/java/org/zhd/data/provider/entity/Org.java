@@ -1,5 +1,7 @@
 package org.zhd.data.provider.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -8,8 +10,9 @@ import java.io.Serializable;
 
 @Data
 @TableName(value = "basic_org")
+@KeySequence(value = "BASIC_ORG_SEQ")
 public class Org implements Serializable {
-    @TableId(value = "org_id")
+    @TableId(value = "org_id", type = IdType.INPUT)
     private Long orgId;
     // 数据共享
     private Integer basicShare;

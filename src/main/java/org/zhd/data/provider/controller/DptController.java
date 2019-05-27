@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("basicInfo")
+@RequestMapping("v1/basicInfo")
 public class DptController extends BaseController {
     @PostMapping("dpt")
     public Map<String, Object> saveDpt(Dpt dpt){
@@ -24,6 +24,7 @@ public class DptController extends BaseController {
 
     @GetMapping("dpt")
     public BaseListDTO<Dpt> listDpt(HttpServletRequest request) {
+        log.info(">>>listDpt start");
         Map<String, Object> map = new HashMap<>();
         Integer currentPage = Integer.valueOf(request.getParameter("currentPage"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
@@ -35,6 +36,7 @@ public class DptController extends BaseController {
 
     @GetMapping("dpt/{id}")
     public Map<String, Object> getDpt(@PathVariable("id") Long id) {
+        log.info(">>>getDpt start");
         Map<String, Object> map = new HashMap<>();
         Dpt res = dptService.findDptById(id);
         map.put("obj", res);
@@ -43,13 +45,15 @@ public class DptController extends BaseController {
 
     @DeleteMapping("dpt/{id}")
     public Map<String, Object> deleteDpt(@PathVariable("id") Long id) {
+        log.info(">>>deleteDpt start");
         dptService.deleteDpt(id);
         return ApiUtil.responseCode();
     }
 
     @DeleteMapping("dpt")
     public Map<String, Object> batchDeleteDpt(HttpServletRequest request) {
-        String[] ids = request.getParameterValues("ids[]");
+        log.info(">>>batchDeleteDpt start");
+        String[] ids = request.getParameterValues("spIds[]");
         List<Long> idList = Stream.of(ids).map(Long::valueOf).collect(Collectors.toList());
         int res = dptService.batchDeleteDpt(idList);
         return ApiUtil.responseCode();
@@ -57,6 +61,7 @@ public class DptController extends BaseController {
 
     @PutMapping("dpt")
     public Map<String, Object> updateDpt(Dpt dpt){
+        log.info(">>>updateDpt start");
         dptService.saveDpt(dpt);
         return ApiUtil.responseCode();
     }

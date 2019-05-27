@@ -60,7 +60,7 @@ public class DptService {
         QueryWrapper<Dpt> queryWrapper = new QueryWrapper<>();
         // 分页查询
         IPage<Dpt> resPage = dptMapper.selectPage(page, queryWrapper);
-        return new BaseListDTO( resPage.getRecords(), (int) resPage.getTotal());
+        return new BaseListDTO(resPage.getRecords(), (int) resPage.getTotal());
     }
 
     public int deleteDpt(Long id) {

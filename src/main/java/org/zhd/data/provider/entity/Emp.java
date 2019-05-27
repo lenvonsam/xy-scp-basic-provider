@@ -1,22 +1,28 @@
 package org.zhd.data.provider.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @TableName(value = "basic_employee")
+@KeySequence(value = "BASIC_EMPLOYEE_SEQ")
 public class Emp implements Serializable {
-    @TableId(value = "employee_id")
+    @TableId(value = "employee_id", type = IdType.INPUT)
     private Long empId;
+    // 数据共享
+    private Integer basicShare;
     // 所属部门
     private String deptCode;
     // 住址
     private String employeeAddr;
     // 生日
-    private String employeeBirthday;
+    private Date employeeBirthday;
     // 员工类别
     private String employeeClass;
     // 员工代码
@@ -30,9 +36,11 @@ public class Emp implements Serializable {
     // 职位
     private String employeeJob;
     // 进公司日期
-    private String employeeJoindate;
+    private Date employeeJoindate;
     // 婚姻 0：未知1：未婚2：已婚3：离婚4：丧偶
     private String employeeMarriage;
+    // 助记码
+    private String employeeMnemcode;
     // 手机
     private String employeeMobile;
     // 员工名称
@@ -52,17 +60,13 @@ public class Emp implements Serializable {
     // 专业
     private String employeeSpecialty;
     // 状态0：启用1：停用
-    private String employeeState;
+    private Integer employeeState;
     // 技术职称
     private String employeeTechnical;
     // 代码(禁止输入汉字)
     private String memberCode;
     // 所属机构
     private String orgCode;
-    // 工作组代码
-    private String workgroupCode;
-    // 工作组名称
-    private String workgroupName;
     // 工种名称
     private String worktypeName;
 }
