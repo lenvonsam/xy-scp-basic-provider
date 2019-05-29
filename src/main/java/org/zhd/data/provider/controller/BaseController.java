@@ -9,13 +9,13 @@ import org.zhd.data.provider.service.EmpService;
 import org.zhd.data.provider.service.OrgService;
 
 @Controller
-class BaseController {
-    Logger log = LoggerFactory.getLogger(BaseController.class);
+public class BaseController {
+    protected Logger log = LoggerFactory.getLogger(BaseController.class);
 
     @Autowired
-    DptService dptService;
+    protected DptService dptService;
     @Autowired
-    OrgService orgService;
+    protected OrgService orgService;
     @Autowired
-    EmpService empService;
+    protected EmpService empService;
 }

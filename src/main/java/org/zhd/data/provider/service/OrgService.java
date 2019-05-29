@@ -49,6 +49,7 @@ public class OrgService {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public BaseListDTO<Org> findOrgListByPg(Map<String, Object> params) {
         Integer currentPage = (Integer) params.get("currentPage");
         Integer pageSize = (Integer) params.get("pageSize");

@@ -1,10 +1,12 @@
-package org.zhd.data.provider.controller;
+package org.zhd.data.provider.controller.basic;
 
 import org.springframework.web.bind.annotation.*;
 import org.xy.api.dto.BaseListDTO;
 import org.xy.api.utils.ApiUtil;
+import org.zhd.data.provider.controller.BaseController;
 import org.zhd.data.provider.entity.Emp;
 import org.zhd.data.provider.utils.DateTimeUtils;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -15,7 +17,30 @@ import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("v1/basicInfo")
-public class EmpController extends BaseController{
+@ApiIgnore
+public class EmpController extends BaseController {
+    /**
+     * @api {post} v1/basicInfo/emp 新增
+     * @apiDescription  新增员工信息
+     * @apiName saveEmp
+     * @apiGroup emp
+     * @apiParam {Emp} emp 对象
+     * @apiParam {String} emp.deptCode 部门code
+     * @apiParamExample {json} Request-Example:
+     * {
+     *     "emp":"员工对象",
+     *     "spEmpBirthday":"2019-05-28",
+     *     "spEmpJoindate":"2019-05-28"
+     * }
+     * @apiSuccessExample {json} Success-Response:
+     * {
+     *      "list":{List <emp>}
+     *      "total":"10",
+     *      "return_code":"0",
+     *      "message":"success"
+     * }
+     * @apiVersion 1.0.0
+     */
     @PostMapping("emp")
     public Map<String, Object> saveEmp(Emp emp, HttpServletRequest request){
         log.info(">>>saveEmp start");
@@ -31,6 +56,25 @@ public class EmpController extends BaseController{
         return ApiUtil.responseCode();
     }
 
+    /**
+     * @api {get} v1/basicInfo/emp 分页查询
+     * @apiDescription  分页查询员工信息
+     * @apiName listEmp
+     * @apiGroup emp
+     * @apiParamExample {json} Request-Example:
+     * {
+     *     "currentPage":"0",
+     *     "pageSize":"10"
+     * }
+     * @apiSuccessExample {json} Success-Response:
+     * {
+     *      "list":{List <emp>}
+     *      "total":"10",
+     *      "return_code":"0",
+     *      "message":"success"
+     * }
+     * @apiVersion 1.0.0
+     */
     @GetMapping("emp")
     public BaseListDTO<Emp> listEmp(HttpServletRequest request) {
         log.info(">>>listEmp start");

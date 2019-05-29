@@ -1,8 +1,10 @@
-package org.zhd.data.provider.controller;
+package org.zhd.data.provider.controller.basic;
 
+import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 import org.xy.api.dto.BaseListDTO;
 import org.xy.api.utils.ApiUtil;
+import org.zhd.data.provider.controller.BaseController;
 import org.zhd.data.provider.entity.Dpt;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +18,8 @@ import java.util.stream.Stream;
 @RequestMapping("v1/basicInfo")
 public class DptController extends BaseController {
     @PostMapping("dpt")
+    @ApiOperation("分页查询部门信息")
+    @ApiImplicitParam(paramType="body",name="dpt",dataType="Dpt",required=true)
     public Map<String, Object> saveDpt(Dpt dpt){
         log.info(">>>saveDpt start");
         dptService.saveDpt(dpt);
@@ -23,6 +27,11 @@ public class DptController extends BaseController {
     }
 
     @GetMapping("dpt")
+    @ApiOperation("分页查询部门信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="body",name="currentPage",dataType="String",required=true),
+            @ApiImplicitParam(paramType="body",name="pageSize",dataType="String",required=true)
+    })
     public BaseListDTO<Dpt> listDpt(HttpServletRequest request) {
         log.info(">>>listDpt start");
         Map<String, Object> map = new HashMap<>();

@@ -52,6 +52,7 @@ public class DptService {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public BaseListDTO<Dpt> findDptListByPg(Map<String, Object> params) {
         Integer currentPage = (Integer) params.get("currentPage");
         Integer pageSize = (Integer) params.get("pageSize");

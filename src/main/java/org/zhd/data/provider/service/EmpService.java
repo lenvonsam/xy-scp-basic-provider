@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.xy.api.dto.BaseListDTO;
 import org.zhd.data.provider.entity.Emp;
 import org.zhd.data.provider.mapper.EmpMapper;
-import org.zhd.data.provider.utils.DefaultEnum;
 
 import java.util.List;
 import java.util.Map;
@@ -23,12 +22,6 @@ public class EmpService {
     private EmpMapper empMapper;
 
     public Emp saveEmp(Emp emp){
-        // 获取顶级部门
-        Emp empDefault = empMapper.selectById(DefaultEnum.DPT.getValue());
-        if (empDefault == null) {
-            log.info(">>>找不到顶级部门...");
-            return null;
-        }
         // 赋值
         emp.setMemberCode("0000");
 
@@ -47,6 +40,7 @@ public class EmpService {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public BaseListDTO<Emp> findEmpListByPg(Map<String, Object> params) {
         Integer currentPage = (Integer) params.get("currentPage");
         Integer pageSize = (Integer) params.get("pageSize");
