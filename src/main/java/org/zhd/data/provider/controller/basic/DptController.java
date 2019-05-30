@@ -18,9 +18,8 @@ import java.util.stream.Stream;
 @RequestMapping("v1/basicInfo")
 public class DptController extends BaseController {
     @PostMapping("dpt")
-    @ApiOperation("分页查询部门信息")
-    @ApiImplicitParam(paramType="body",name="dpt",dataType="Dpt",required=true)
-    public Map<String, Object> saveDpt(Dpt dpt){
+    @ApiOperation("新增部门")
+    public Map<String, Object> saveDpt(Dpt dpt) {
         log.info(">>>saveDpt start");
         dptService.saveDpt(dpt);
         return ApiUtil.responseCode();
@@ -29,8 +28,8 @@ public class DptController extends BaseController {
     @GetMapping("dpt")
     @ApiOperation("分页查询部门信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType="body",name="currentPage",dataType="String",required=true),
-            @ApiImplicitParam(paramType="body",name="pageSize",dataType="String",required=true)
+            @ApiImplicitParam(paramType = "query", name = "currentPage", value = "当前页", dataTypeClass = String.class, required = true),
+            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页数量", dataTypeClass = String.class, required = true)
     })
     public BaseListDTO<Dpt> listDpt(HttpServletRequest request) {
         log.info(">>>listDpt start");
@@ -44,6 +43,11 @@ public class DptController extends BaseController {
     }
 
     @GetMapping("dpt/{id}")
+    @ApiOperation("获取单个部门")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "部门编号", dataTypeClass = Long.class, required = true)
+    @ApiResponses(
+            @ApiResponse(code = 0, message = "obj", response = Dpt.class)
+    )
     public Map<String, Object> getDpt(@PathVariable("id") Long id) {
         log.info(">>>getDpt start");
         Map<String, Object> map = new HashMap<>();
@@ -53,6 +57,8 @@ public class DptController extends BaseController {
     }
 
     @DeleteMapping("dpt/{id}")
+    @ApiOperation("删除部门")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "部门编号", dataTypeClass = Long.class, required = true)
     public Map<String, Object> deleteDpt(@PathVariable("id") Long id) {
         log.info(">>>deleteDpt start");
         dptService.deleteDpt(id);
@@ -60,6 +66,9 @@ public class DptController extends BaseController {
     }
 
     @DeleteMapping("dpt")
+    @ApiOperation("批量删除部门")
+    @ApiImplicitParam(paramType = "query", name = "spIds[]", value = "id数组", allowMultiple = true,
+            dataTypeClass = String.class, required = true)
     public Map<String, Object> batchDeleteDpt(HttpServletRequest request) {
         log.info(">>>batchDeleteDpt start");
         String[] ids = request.getParameterValues("spIds[]");
@@ -69,7 +78,8 @@ public class DptController extends BaseController {
     }
 
     @PutMapping("dpt")
-    public Map<String, Object> updateDpt(Dpt dpt){
+    @ApiOperation("修改部门")
+    public Map<String, Object> updateDpt(Dpt dpt) {
         log.info(">>>updateDpt start");
         dptService.saveDpt(dpt);
         return ApiUtil.responseCode();

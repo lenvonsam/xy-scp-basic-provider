@@ -11,12 +11,12 @@ import org.xy.api.utils.ApiUtil;
 import java.util.Map;
 
 @ControllerAdvice
-public class ExceptionHander {
-    private Logger log = LoggerFactory.getLogger(ExceptionHander.class);
+public class ExceptController {
+    private Logger log = LoggerFactory.getLogger(ExceptController.class);
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public Map<String, Object> exceptionHander(Exception e) {
+    public Map<String, Object> exceptionHandler(Exception e) {
         e.printStackTrace();
         return ApiUtil.responseCode(null, ApiEnum.FAILURE, e.getMessage());
     }

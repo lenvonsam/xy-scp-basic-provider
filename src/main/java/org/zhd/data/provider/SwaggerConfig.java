@@ -19,6 +19,7 @@ public class SwaggerConfig {
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
+                .useDefaultResponseMessages(false)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("org.zhd.data.provider.controller.basic"))
                 .paths(PathSelectors.any())
@@ -27,9 +28,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("springboot利用swagger构建api文档")
-                .description("简单优雅的restfun风格，http://blog.csdn.net/saytime")
-                .termsOfServiceUrl("http://blog.csdn.net/saytime")
+                .title("智恒达-scp-基础数据-api文档")
+                .description("提供基础数据相关的增删改查接口")
                 .version("1.0")
                 .build();
     }

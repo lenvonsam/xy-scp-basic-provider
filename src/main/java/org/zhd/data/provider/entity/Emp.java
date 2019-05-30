@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,61 +14,63 @@ import java.util.Date;
 @Data
 @TableName(value = "basic_employee")
 @KeySequence(value = "BASIC_EMPLOYEE_SEQ")
+@ApiModel(value="业务员对象")
 public class Emp implements Serializable {
     @TableId(value = "employee_id", type = IdType.INPUT)
+    @ApiModelProperty(value="唯一标识",example="1")
     private Long empId;
-    // 数据共享
+    @ApiModelProperty(value="数据共享",example="1")
     private Integer basicShare;
-    // 所属部门
+    @ApiModelProperty(value="所属部门")
     private String deptCode;
-    // 住址
+    @ApiModelProperty(value="住址")
     private String employeeAddr;
-    // 生日
+    @ApiModelProperty(value="生日",example="2019-05-30 08:00:00")
     private Date employeeBirthday;
-    // 员工类别
+    @ApiModelProperty(value="员工类别")
     private String employeeClass;
-    // 员工代码
+    @ApiModelProperty(value="员工代码")
     private String employeeCode;
-    // 学历
+    @ApiModelProperty(value="学历")
     private String employeeDegree;
-    // 邮件
+    @ApiModelProperty(value="邮件")
     private String employeeEmail;
-    // 身份证号
+    @ApiModelProperty(value="身份证号")
     private String employeeIdcard;
-    // 职位
+    @ApiModelProperty(value="职位")
     private String employeeJob;
-    // 进公司日期
+    @ApiModelProperty(value="进公司日期",example="2019-05-30 08:00:00")
     private Date employeeJoindate;
-    // 婚姻 0：未知1：未婚2：已婚3：离婚4：丧偶
+    @ApiModelProperty(value="婚姻 0：未知1：未婚2：已婚3：离婚4：丧偶")
     private String employeeMarriage;
-    // 助记码
+    @ApiModelProperty(value="助记码")
     private String employeeMnemcode;
-    // 手机
+    @ApiModelProperty(value="手机")
     private String employeeMobile;
-    // 员工名称
+    @ApiModelProperty(value="员工名称")
     private String employeeName;
-    // 民族
+    @ApiModelProperty(value="民族")
     private String employeeNation;
-    // 籍贯
+    @ApiModelProperty(value="籍贯")
     private String employeeNative;
-    // 政治面貌
+    @ApiModelProperty(value="政治面貌")
     private String employeeParty;
-    // 电话
+    @ApiModelProperty(value="电话")
     private String employeePhone;
-    // 备注
+    @ApiModelProperty(value="备注")
     private String employeeRemark;
-    // 性别(男、女供选择)
+    @ApiModelProperty(value="性别(男、女供选择)")
     private String employeeSex;
-    // 专业
+    @ApiModelProperty(value="专业")
     private String employeeSpecialty;
-    // 状态0：启用1：停用
+    @ApiModelProperty(value="状态0：启用1：停用",example="0")
     private Integer employeeState;
-    // 技术职称
+    @ApiModelProperty(value="技术职称")
     private String employeeTechnical;
-    // 代码(禁止输入汉字)
+    @ApiModelProperty(value="代码(禁止输入汉字)")
     private String memberCode;
-    // 所属机构
+    @ApiModelProperty(value="所属机构")
     private String orgCode;
-    // 工种名称
+    @ApiModelProperty(value="工种名称")
     private String worktypeName;
 }

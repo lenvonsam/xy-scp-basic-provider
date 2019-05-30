@@ -1,11 +1,11 @@
 package org.zhd.data.provider.controller.basic;
 
+import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 import org.xy.api.dto.BaseListDTO;
 import org.xy.api.utils.ApiUtil;
 import org.zhd.data.provider.controller.BaseController;
 import org.zhd.data.provider.entity.Org;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -16,9 +16,9 @@ import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("v1/basicInfo")
-@ApiIgnore
 public class OrgController extends BaseController {
     @PostMapping("org")
+    @ApiOperation("新增机构")
     public Map<String, Object> saveOrg(Org org, HttpServletRequest request){
         log.info(">>>saveOrg start");
         orgService.saveOrg(org);
@@ -26,6 +26,11 @@ public class OrgController extends BaseController {
     }
 
     @GetMapping("org")
+    @ApiOperation("分页查询机构信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "currentPage", value = "当前页", dataTypeClass = String.class, required = true),
+            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页数量", dataTypeClass = String.class, required = true)
+    })
     public BaseListDTO<Org> listOrg(HttpServletRequest request) {
         log.info(">>>listOrg start");
         Map<String, Object> map = new HashMap<>();
@@ -38,6 +43,11 @@ public class OrgController extends BaseController {
     }
 
     @GetMapping("org/{id}")
+    @ApiOperation("获取单个机构")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "机构编号", dataTypeClass = Long.class, required = true)
+    @ApiResponses(
+            @ApiResponse(code = 0, message = "obj", response = Org.class)
+    )
     public Map<String, Object> getOrg(@PathVariable("id") Long id) {
         log.info(">>>getOrg start");
         Map<String, Object> map = new HashMap<>();
@@ -47,6 +57,8 @@ public class OrgController extends BaseController {
     }
 
     @DeleteMapping("org/{id}")
+    @ApiOperation("删除机构")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "机构编号", dataTypeClass = Long.class, required = true)
     public Map<String, Object> deleteOrg(@PathVariable("id") Long id) {
         log.info(">>>deleteOrg start");
         orgService.deleteOrg(id);
@@ -54,6 +66,9 @@ public class OrgController extends BaseController {
     }
 
     @DeleteMapping("org")
+    @ApiOperation("批量删除机构")
+    @ApiImplicitParam(paramType = "query", name = "spIds[]", value = "id数组", allowMultiple = true,
+            dataTypeClass = String.class, required = true)
     public Map<String, Object> batchDeleteOrg(HttpServletRequest request) {
         log.info(">>>batchDeleteOrg start");
         String[] ids = request.getParameterValues("spIds[]");
@@ -63,6 +78,7 @@ public class OrgController extends BaseController {
     }
 
     @PutMapping("org")
+    @ApiOperation("修改机构")
     public Map<String, Object> updateOrg(Org org){
         log.info(">>>updateOrg start");
         orgService.saveOrg(org);
