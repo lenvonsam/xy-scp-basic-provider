@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 public class DptController extends BaseController {
     @PostMapping("dpt")
     @ApiOperation("新增部门")
-    public Map<String, Object> saveDpt(Dpt dpt) {
+    public Map<String, Object> saveDpt(Dpt dpt) throws Exception{
         log.info(">>>saveDpt start");
         dptService.saveDpt(dpt);
         return ApiUtil.responseCode();
@@ -29,16 +29,24 @@ public class DptController extends BaseController {
     @ApiOperation("分页查询部门信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "currentPage", value = "当前页", dataTypeClass = String.class, required = true),
-            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页数量", dataTypeClass = String.class, required = true)
+            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页数量", dataTypeClass = String.class, required = true),
+            @ApiImplicitParam(paramType = "query", name = "deptName", value = "名称", dataTypeClass = String.class),
+            @ApiImplicitParam(paramType = "query", name = "deptCode", value = "编码", dataTypeClass = String.class)
     })
     public BaseListDTO<Dpt> listDpt(HttpServletRequest request) {
         log.info(">>>listDpt start");
         Map<String, Object> map = new HashMap<>();
         Integer currentPage = Integer.valueOf(request.getParameter("currentPage"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
+        // 条件
+        String deptName = request.getParameter("deptName");
+        String deptCode = request.getParameter("deptCode");
+
         Map<String, Object> params = new HashMap<>();
         params.put("currentPage", currentPage);
         params.put("pageSize", pageSize);
+        params.put("deptName", deptName);
+        params.put("deptCode", deptCode);
         return dptService.findDptListByPg(params);
     }
 
@@ -79,7 +87,7 @@ public class DptController extends BaseController {
 
     @PutMapping("dpt")
     @ApiOperation("修改部门")
-    public Map<String, Object> updateDpt(Dpt dpt) {
+    public Map<String, Object> updateDpt(Dpt dpt) throws Exception{
         log.info(">>>updateDpt start");
         dptService.saveDpt(dpt);
         return ApiUtil.responseCode();

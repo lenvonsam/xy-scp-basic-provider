@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Profile;
 public class MpGenerator {
     public static void main(String[] args) {
         AutoGenerator mpg = new AutoGenerator();
+        String prefix = "Dept";
+        String tableName = "basic_dept";
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
@@ -17,6 +19,10 @@ public class MpGenerator {
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("cth");
         gc.setOpen(false);
+        gc.setMapperName(prefix + "Mapper");
+        gc.setEntityName(prefix);
+        gc.setControllerName(prefix + "Controller");
+        gc.setServiceName(prefix + "Service");
         gc.setIdType(IdType.INPUT); //主键策略
         gc.setSwagger2(true); //实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
@@ -31,15 +37,19 @@ public class MpGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("org.zhd.data.provider");
+        pc.setParent("org.zhd.data.provider")
+                .setEntity("entity")
+                .setMapper("mapper")
+                .setController("controller.basic")
+                .setService("service");
         mpg.setPackageInfo(pc);
 
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setEntity("templates/entity2.java");
-        templateConfig.setController(null);
-        templateConfig.setMapper(null);
-        templateConfig.setService(null);
+        templateConfig.setController("templates/controller2.java");
+        templateConfig.setMapper("templates/mapper2.java");
+        templateConfig.setService("templates/service2.java");
         templateConfig.setServiceImpl(null);
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
@@ -49,7 +59,7 @@ public class MpGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
-        strategy.setInclude("basic_dept".toUpperCase());
+        strategy.setInclude(tableName.toUpperCase());
         strategy.setControllerMappingHyphenStyle(true);
         mpg.setStrategy(strategy);
         mpg.execute();

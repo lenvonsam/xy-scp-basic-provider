@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.xy.api.dto.BaseListDTO;
 import org.zhd.data.provider.entity.Dpt;
 import org.zhd.data.provider.mapper.DptMapper;
+import org.zhd.data.provider.utils.DaoUtils;
 import org.zhd.data.provider.utils.DefaultEnum;
 
 import java.util.List;
@@ -22,18 +23,19 @@ public class DptService {
     @Autowired
     private DptMapper dptMapper;
 
-    public Dpt saveDpt(Dpt dpt){
+    public Dpt saveDpt(Dpt dpt) throws Exception{
         // 获取顶级部门
         Dpt dptDefault = dptMapper.selectById(DefaultEnum.DPT.getValue());
         if (dptDefault == null) {
             log.info(">>>找不到顶级部门...");
-            return null;
+            throw new Exception("找不到顶级部门...");
         }
 //        if (dpt.getDeptCode().equals("000095")) {
 //            throw new Exception("deptCode:000095 已经存在！");
 //        }
         // 赋值
         dpt.setMemberCode("0000");
+        dpt.setDeptCode(DaoUtils.getMaxCode("dept_code", "basic_dept"));
         dpt.setDeptParent(dptDefault.getDeptCode());
         dpt.setDeptNodecode(dptDefault.getDeptNodecode() + "." + dpt.getDeptCode());
 
@@ -59,6 +61,14 @@ public class DptService {
         Page<Dpt> page = new Page<>(currentPage, pageSize);
         // mp 条件构造器
         QueryWrapper<Dpt> queryWrapper = new QueryWrapper<>();
+        String deptName = (String) params.get("deptName");
+        String deptCode = (String) params.get("deptCode");
+        if (deptName != null) {
+            queryWrapper.like("dept_name", deptName);
+        }
+        if (deptCode != null) {
+            queryWrapper.like("dept_code", deptCode);
+        }
         // 分页查询
         IPage<Dpt> resPage = dptMapper.selectPage(page, queryWrapper);
         return new BaseListDTO(resPage.getRecords(), (int) resPage.getTotal());

@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 public class OrgController extends BaseController {
     @PostMapping("org")
     @ApiOperation("新增机构")
-    public Map<String, Object> saveOrg(Org org, HttpServletRequest request){
+    public Map<String, Object> saveOrg(Org org, HttpServletRequest request) throws Exception{
         log.info(">>>saveOrg start");
         orgService.saveOrg(org);
         return ApiUtil.responseCode();
@@ -29,16 +29,24 @@ public class OrgController extends BaseController {
     @ApiOperation("分页查询机构信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "currentPage", value = "当前页", dataTypeClass = String.class, required = true),
-            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页数量", dataTypeClass = String.class, required = true)
+            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页数量", dataTypeClass = String.class, required = true),
+            @ApiImplicitParam(paramType = "query", name = "orgName", value = "名称", dataTypeClass = String.class),
+            @ApiImplicitParam(paramType = "query", name = "orgCode", value = "编码", dataTypeClass = String.class)
     })
     public BaseListDTO<Org> listOrg(HttpServletRequest request) {
         log.info(">>>listOrg start");
         Map<String, Object> map = new HashMap<>();
         Integer currentPage = Integer.valueOf(request.getParameter("currentPage"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
+        // 条件
+        String orgName = request.getParameter("orgName");
+        String orgCode = request.getParameter("orgCode");
+
         Map<String, Object> params = new HashMap<>();
         params.put("currentPage", currentPage);
         params.put("pageSize", pageSize);
+        params.put("orgName", orgName);
+        params.put("orgCode", orgCode);
         return orgService.findOrgListByPg(params);
     }
 
@@ -79,7 +87,7 @@ public class OrgController extends BaseController {
 
     @PutMapping("org")
     @ApiOperation("修改机构")
-    public Map<String, Object> updateOrg(Org org){
+    public Map<String, Object> updateOrg(Org org) throws Exception{
         log.info(">>>updateOrg start");
         orgService.saveOrg(org);
         return ApiUtil.responseCode();

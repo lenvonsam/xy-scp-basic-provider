@@ -16,7 +16,7 @@ import java.io.Serializable;
 @ApiModel(value="机构对象")
 public class Org implements Serializable {
     @TableId(value = "org_id", type = IdType.INPUT)
-    @ApiModelProperty(value="唯一标识",example="1")
+    @ApiModelProperty(value="唯一标识,新增不传",example="1")
     private Long orgId;
     @ApiModelProperty(value="数据共享",example="1")
     private Integer basicShare;
@@ -32,7 +32,7 @@ public class Org implements Serializable {
     private String orgAddr;
     @ApiModelProperty(value="开户银行")
     private String orgBankname;
-    @ApiModelProperty(value="机构代码")
+    @ApiModelProperty(value="机构代码,新增不传")
     private String orgCode;
     @ApiModelProperty(value="机构法人")
     private String orgCorporation;
@@ -42,9 +42,9 @@ public class Org implements Serializable {
     private Integer orgIsleaf;
     @ApiModelProperty(value="机构名称")
     private String orgName;
-    @ApiModelProperty(value="树节点代码")
+    @ApiModelProperty(value="树节点代码,新增不传")
     private String orgNodecode;
-    @ApiModelProperty(value="父代码")
+    @ApiModelProperty(value="父代码,新增不传")
     private String orgParent;
     @ApiModelProperty(value="机构电话")
     private String orgPhone;

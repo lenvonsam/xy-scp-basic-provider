@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.xy.api.dto.BaseListDTO;
 import org.zhd.data.provider.entity.Org;
 import org.zhd.data.provider.mapper.OrgMapper;
+import org.zhd.data.provider.utils.DaoUtils;
 import org.zhd.data.provider.utils.DefaultEnum;
 
 import java.util.List;
@@ -22,15 +23,16 @@ public class OrgService {
     @Autowired
     private OrgMapper orgMapper;
 
-    public Org saveOrg(Org org){
+    public Org saveOrg(Org org) throws Exception{
         // 获取顶级部门
         Org orgDefault = orgMapper.selectById(DefaultEnum.ORG.getValue());
         if (orgDefault == null) {
             log.info(">>>找不到顶级机构...");
-            return null;
+            throw new Exception("找不到顶级部门...");
         }
         // 赋值
         org.setMemberCode("0000");
+        org.setOrgCode(DaoUtils.getMaxCode("org_code", "basic_org"));
         org.setOrgParent(orgDefault.getOrgCode());
         org.setOrgNodecode(orgDefault.getOrgNodecode() + "." + org.getOrgCode());
 
@@ -56,6 +58,14 @@ public class OrgService {
         Page<Org> page = new Page<>(currentPage, pageSize);
         // mp 条件构造器
         QueryWrapper<Org> queryWrapper = new QueryWrapper<>();
+        String orgName = (String) params.get("orgName");
+        String orgCode = (String) params.get("orgCode");
+        if (orgName != null) {
+            queryWrapper.like("org_name", orgName);
+        }
+        if (orgCode != null) {
+            queryWrapper.like("org_code", orgCode);
+        }
         // 分页查询
         IPage<Org> resPage = orgMapper.selectPage(page, queryWrapper);
         return new BaseListDTO(resPage.getRecords(), (int) resPage.getTotal());

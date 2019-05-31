@@ -17,7 +17,7 @@ import java.util.Date;
 @ApiModel(value="业务员对象")
 public class Emp implements Serializable {
     @TableId(value = "employee_id", type = IdType.INPUT)
-    @ApiModelProperty(value="唯一标识",example="1")
+    @ApiModelProperty(value="唯一标识,新增不传",example="1")
     private Long empId;
     @ApiModelProperty(value="数据共享",example="1")
     private Integer basicShare;
@@ -29,7 +29,7 @@ public class Emp implements Serializable {
     private Date employeeBirthday;
     @ApiModelProperty(value="员工类别")
     private String employeeClass;
-    @ApiModelProperty(value="员工代码")
+    @ApiModelProperty(value="员工代码,新增不传")
     private String employeeCode;
     @ApiModelProperty(value="学历")
     private String employeeDegree;

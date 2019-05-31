@@ -16,11 +16,11 @@ import java.io.Serializable;
 @ApiModel(value="部门对象")
 public class Dpt implements Serializable {
     @TableId(value = "dept_id", type = IdType.INPUT)
-    @ApiModelProperty(value="唯一标识",example="1")
+    @ApiModelProperty(value="唯一标识,新增不传",example="1")
     private Long deptId;
     @ApiModelProperty(value="数据共享",example="1")
     private Integer basicShare;
-    @ApiModelProperty(value="部门代码")
+    @ApiModelProperty(value="部门代码,新增不传")
     private String deptCode;
     @ApiModelProperty(value="叶子节点（0：部门组，1：部门明细）",example="1")
     private Integer deptIsleaf;
@@ -28,9 +28,9 @@ public class Dpt implements Serializable {
     private String deptManager;
     @ApiModelProperty(value="部门名称")
     private String deptName;
-    @ApiModelProperty(value="树节点代码")
+    @ApiModelProperty(value="树节点代码,新增不传")
     private String deptNodecode;
-    @ApiModelProperty(value="父代码")
+    @ApiModelProperty(value="父代码,新增不传")
     private String deptParent;
     @ApiModelProperty(value="备注")
     private String deptRemark;

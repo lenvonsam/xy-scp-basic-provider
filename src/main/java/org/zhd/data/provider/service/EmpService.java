@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.xy.api.dto.BaseListDTO;
 import org.zhd.data.provider.entity.Emp;
 import org.zhd.data.provider.mapper.EmpMapper;
+import org.zhd.data.provider.utils.DaoUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ public class EmpService {
     public Emp saveEmp(Emp emp){
         // 赋值
         emp.setMemberCode("0000");
+        emp.setEmployeeCode(DaoUtils.getMaxCode("employee_code", "basic_employee"));
 
         // 区分更新还是保存
         int res = 0;
@@ -47,6 +49,14 @@ public class EmpService {
         Page<Emp> page = new Page<>(currentPage, pageSize);
         // mp 条件构造器
         QueryWrapper<Emp> queryWrapper = new QueryWrapper<>();
+        String employeeName = (String) params.get("employeeName");
+        String employeeCode = (String) params.get("employeeCode");
+        if (employeeName != null) {
+            queryWrapper.like("employee_name", employeeName);
+        }
+        if (employeeCode != null) {
+            queryWrapper.like("employee_code", employeeCode);
+        }
         // 分页查询
         IPage<Emp> resPage = empMapper.selectPage(page, queryWrapper);
         return new BaseListDTO( resPage.getRecords(), (int) resPage.getTotal());

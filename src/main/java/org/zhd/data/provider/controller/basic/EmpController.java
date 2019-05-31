@@ -29,16 +29,24 @@ public class EmpController extends BaseController {
     @ApiOperation("分页查询业务员信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "currentPage", value = "当前页", dataTypeClass = String.class, required = true),
-            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页数量", dataTypeClass = String.class, required = true)
+            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页数量", dataTypeClass = String.class, required = true),
+            @ApiImplicitParam(paramType = "query", name = "employeeName", value = "名称", dataTypeClass = String.class),
+            @ApiImplicitParam(paramType = "query", name = "employeeCode", value = "编码", dataTypeClass = String.class)
     })
     public BaseListDTO<Emp> listEmp(HttpServletRequest request) {
         log.info(">>>listEmp start");
         Map<String, Object> map = new HashMap<>();
         Integer currentPage = Integer.valueOf(request.getParameter("currentPage"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
+        // 条件
+        String employeeName = request.getParameter("employeeName");
+        String employeeCode = request.getParameter("employeeCode");
+
         Map<String, Object> params = new HashMap<>();
         params.put("currentPage", currentPage);
         params.put("pageSize", pageSize);
+        params.put("employeeName", employeeName);
+        params.put("employeeCode", employeeCode);
         return empService.findEmpListByPg(params);
     }
 
