@@ -27,12 +27,8 @@ public class DptService {
         // 获取顶级部门
         Dpt dptDefault = dptMapper.selectById(DefaultEnum.DPT.getValue());
         if (dptDefault == null) {
-            log.info(">>>找不到顶级部门...");
             throw new Exception("找不到顶级部门...");
         }
-//        if (dpt.getDeptCode().equals("000095")) {
-//            throw new Exception("deptCode:000095 已经存在！");
-//        }
         // 赋值
         dpt.setMemberCode("0000");
         dpt.setDeptCode(DaoUtils.getMaxCode("dept_code", "basic_dept"));

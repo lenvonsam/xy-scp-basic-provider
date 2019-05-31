@@ -27,8 +27,7 @@ public class OrgService {
         // 获取顶级部门
         Org orgDefault = orgMapper.selectById(DefaultEnum.ORG.getValue());
         if (orgDefault == null) {
-            log.info(">>>找不到顶级机构...");
-            throw new Exception("找不到顶级部门...");
+            throw new Exception("找不到顶级机构...");
         }
         // 赋值
         org.setMemberCode("0000");
