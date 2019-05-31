@@ -3,6 +3,7 @@ package org.zhd.data.provider.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class OrgService {
             throw new Exception("找不到顶级机构...");
         }
         // 赋值
+        if (StringUtils.isBlank(org.getOrgAbbreviate())) {
+            org.setOrgAbbreviate(org.getOrgName());
+        }
         org.setMemberCode("0000");
         org.setOrgCode(DaoUtils.getMaxCode("org_code", "basic_org"));
         org.setOrgParent(orgDefault.getOrgCode());
