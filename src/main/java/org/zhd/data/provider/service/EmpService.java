@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xy.api.dto.BaseListDTO;
-import org.zhd.data.provider.entity.Emp;
+import org.zhd.data.provider.entity.EmpBean;
 import org.zhd.data.provider.mapper.EmpMapper;
 import org.zhd.data.provider.utils.DaoUtils;
 
@@ -22,33 +22,33 @@ public class EmpService {
     @Autowired
     private EmpMapper empMapper;
 
-    public Emp saveEmp(Emp emp){
+    public EmpBean saveEmp(EmpBean empBean){
         // 赋值
-        emp.setMemberCode("0000");
-        emp.setEmployeeCode(DaoUtils.getMaxCode("employee_code", "basic_employee"));
+        empBean.setMemberCode("0000");
+        empBean.setEmployeeCode(DaoUtils.getMaxCode("employee_code", "basic_employee"));
 
         // 区分更新还是保存
         int res = 0;
-        if (emp.getEmpId() == null) {
-            res = empMapper.insert(emp);
+        if (empBean.getEmpId() == null) {
+            res = empMapper.insert(empBean);
         } else {
-            res = empMapper.updateById(emp);
+            res = empMapper.updateById(empBean);
         }
         if (res == 1) {
-            log.info(">>>保存成功,id为:" + emp.getEmpId());
-            return emp;
+            log.info(">>>保存成功,id为:" + empBean.getEmpId());
+            return empBean;
         } else {
             return null;
         }
     }
 
     @SuppressWarnings("unchecked")
-    public BaseListDTO<Emp> findEmpListByPg(Map<String, Object> params) {
+    public BaseListDTO<EmpBean> selectEmpPage(Map<String, Object> params) {
         Integer currentPage = (Integer) params.get("currentPage");
         Integer pageSize = (Integer) params.get("pageSize");
-        Page<Emp> page = new Page<>(currentPage, pageSize);
+        Page<EmpBean> page = new Page<>(currentPage, pageSize);
         // mp 条件构造器
-        QueryWrapper<Emp> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<EmpBean> queryWrapper = new QueryWrapper<>();
         String employeeName = (String) params.get("employeeName");
         String employeeCode = (String) params.get("employeeCode");
         if (employeeName != null) {
@@ -58,30 +58,16 @@ public class EmpService {
             queryWrapper.like("employee_code", employeeCode);
         }
         // 分页查询
-        IPage<Emp> resPage = empMapper.selectPage(page, queryWrapper);
+        IPage<EmpBean> resPage = empMapper.selectPage(page, queryWrapper);
         return new BaseListDTO( resPage.getRecords(), (int) resPage.getTotal());
     }
 
-    public int deleteEmp(Long id) {
-        int res = empMapper.deleteById(id);
-        if (res != 1) {
-            return -1;
-        }
-        return 0;
+    public int deleteEmp(List<Long> ids) {
+        return empMapper.deleteBatchIds(ids);
     }
 
-    public int batchDeleteEmp(List<Long> ids) {
-        for (Long id : ids) {
-            int res = empMapper.deleteById(id);
-            if (res != 1) {
-                return -1;
-            }
-        }
-        return 0;
-    }
-
-    public Emp findEmpById(Long id) {
-        Emp emp = empMapper.selectById(id);
+    public EmpBean selectEmpById(Long id) {
+        EmpBean emp = empMapper.selectById(id);
         if (emp == null) {
             return null;
         }

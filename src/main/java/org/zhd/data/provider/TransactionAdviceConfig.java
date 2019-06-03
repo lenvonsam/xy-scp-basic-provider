@@ -38,6 +38,7 @@ public class TransactionAdviceConfig {
         source.addTransactionalMethod("query*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("find*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("list*", txAttr_REQUIRED_READONLY);
+        source.addTransactionalMethod("select*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("count*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("is*", txAttr_REQUIRED_READONLY);
         // 其他的需要支持事务

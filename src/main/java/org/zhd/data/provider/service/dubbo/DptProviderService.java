@@ -12,27 +12,20 @@ import java.util.Map;
         protocol = "${dubbo.protocol.id}", registry = "${dubbo.registry.id}", group = "${dubbo.group}")
 public class DptProviderService implements DptDpi {
     @Override
-    public DptDTO save(DptDTO model) throws Exception {
+    public void save(DptDTO model) {
+    }
+
+    @Override
+    public BaseListDTO<DptDTO> selectPage(Map<String, Object> params) {
         return null;
     }
 
     @Override
-    public BaseListDTO<DptDTO> findByPg(Map<String, Object> params) throws Exception {
-        return null;
+    public void delete(List<Long> ids) {
     }
 
     @Override
-    public int delete(Long id) throws Exception {
-        return 0;
-    }
-
-    @Override
-    public int batchDelete(List<Long> ids) throws Exception {
-        return 0;
-    }
-
-    @Override
-    public DptDTO findOne(Long id) throws Exception {
+    public DptDTO selectById(Long id) {
         return null;
     }
 }

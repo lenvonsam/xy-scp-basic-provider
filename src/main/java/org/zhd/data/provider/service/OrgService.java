@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xy.api.dto.BaseListDTO;
-import org.zhd.data.provider.entity.Org;
+import org.zhd.data.provider.entity.OrgBean;
 import org.zhd.data.provider.mapper.OrgMapper;
 import org.zhd.data.provider.utils.DaoUtils;
 import org.zhd.data.provider.utils.DefaultEnum;
@@ -24,43 +24,43 @@ public class OrgService {
     @Autowired
     private OrgMapper orgMapper;
 
-    public Org saveOrg(Org org) throws Exception{
+    public OrgBean saveOrg(OrgBean orgBean){
         // 获取顶级部门
-        Org orgDefault = orgMapper.selectById(DefaultEnum.ORG.getValue());
+        OrgBean orgDefault = orgMapper.selectById(DefaultEnum.ORG.getValue());
         if (orgDefault == null) {
-            throw new Exception("找不到顶级机构...");
+            throw new RuntimeException("找不到顶级机构...");
         }
         // 赋值
-        if (StringUtils.isBlank(org.getOrgAbbreviate())) {
-            org.setOrgAbbreviate(org.getOrgName());
+        if (StringUtils.isBlank(orgBean.getOrgAbbreviate())) {
+            orgBean.setOrgAbbreviate(orgBean.getOrgName());
         }
-        org.setMemberCode("0000");
-        org.setOrgCode(DaoUtils.getMaxCode("org_code", "basic_org"));
-        org.setOrgParent(orgDefault.getOrgCode());
-        org.setOrgNodecode(orgDefault.getOrgNodecode() + "." + org.getOrgCode());
+        orgBean.setMemberCode("0000");
+        orgBean.setOrgCode(DaoUtils.getMaxCode("org_code", "basic_org"));
+        orgBean.setOrgParent(orgDefault.getOrgCode());
+        orgBean.setOrgNodecode(orgDefault.getOrgNodecode() + "." + orgBean.getOrgCode());
 
         // 区分更新还是保存
         int res = 0;
-        if (org.getOrgId() == null) {
-            res = orgMapper.insert(org);
+        if (orgBean.getOrgId() == null) {
+            res = orgMapper.insert(orgBean);
         } else {
-            res = orgMapper.updateById(org);
+            res = orgMapper.updateById(orgBean);
         }
         if (res == 1) {
-            log.info(">>>保存成功,id为:" + org.getOrgId());
-            return org;
+            log.info(">>>保存成功,id为:" + orgBean.getOrgId());
+            return orgBean;
         } else {
             return null;
         }
     }
 
     @SuppressWarnings("unchecked")
-    public BaseListDTO<Org> findOrgListByPg(Map<String, Object> params) {
+    public BaseListDTO<OrgBean> selectOrgPage(Map<String, Object> params) {
         Integer currentPage = (Integer) params.get("currentPage");
         Integer pageSize = (Integer) params.get("pageSize");
-        Page<Org> page = new Page<>(currentPage, pageSize);
+        Page<OrgBean> page = new Page<>(currentPage, pageSize);
         // mp 条件构造器
-        QueryWrapper<Org> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<OrgBean> queryWrapper = new QueryWrapper<>();
         String orgName = (String) params.get("orgName");
         String orgCode = (String) params.get("orgCode");
         if (orgName != null) {
@@ -69,31 +69,18 @@ public class OrgService {
         if (orgCode != null) {
             queryWrapper.like("org_code", orgCode);
         }
+        queryWrapper.ne("org_id", "1");
         // 分页查询
-        IPage<Org> resPage = orgMapper.selectPage(page, queryWrapper);
+        IPage<OrgBean> resPage = orgMapper.selectPage(page, queryWrapper);
         return new BaseListDTO(resPage.getRecords(), (int) resPage.getTotal());
     }
 
-    public int deleteOrg(Long id) {
-        int res = orgMapper.deleteById(id);
-        if (res != 1) {
-            return -1;
-        }
-        return 0;
+    public int deleteOrg(List<Long> ids) {
+        return orgMapper.deleteBatchIds(ids);
     }
 
-    public int batchDeleteOrg(List<Long> ids) {
-        for (Long id : ids) {
-            int res = orgMapper.deleteById(id);
-            if (res != 1) {
-                return -1;
-            }
-        }
-        return 0;
-    }
-
-    public Org findOrgById(Long id) {
-        Org org = orgMapper.selectById(id);
+    public OrgBean selectOrgById(Long id) {
+        OrgBean org = orgMapper.selectById(id);
         if (org == null) {
             return null;
         }

@@ -5,23 +5,22 @@ import org.springframework.web.bind.annotation.*;
 import org.xy.api.dto.BaseListDTO;
 import org.xy.api.utils.ApiUtil;
 import org.zhd.data.provider.controller.BaseController;
-import org.zhd.data.provider.entity.Dpt;
+import org.zhd.data.provider.entity.DptBean;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("v1/basicInfo")
+@Api(tags = {"部门"}, description = "DptController")
 public class DptController extends BaseController {
     @PostMapping("dpt")
     @ApiOperation("新增部门")
-    public Map<String, Object> saveDpt(Dpt dpt) throws Exception{
+    public Map<String, Object> saveDpt(DptBean dptBean){
         log.info(">>>saveDpt start");
-        dptService.saveDpt(dpt);
+        dptService.saveDpt(dptBean);
         return ApiUtil.responseCode();
     }
 
@@ -33,7 +32,7 @@ public class DptController extends BaseController {
             @ApiImplicitParam(paramType = "query", name = "deptName", value = "名称", dataTypeClass = String.class),
             @ApiImplicitParam(paramType = "query", name = "deptCode", value = "编码", dataTypeClass = String.class)
     })
-    public BaseListDTO<Dpt> listDpt(HttpServletRequest request) {
+    public BaseListDTO<DptBean> selectDptPage(HttpServletRequest request) {
         log.info(">>>listDpt start");
         Map<String, Object> map = new HashMap<>();
         Integer currentPage = Integer.valueOf(request.getParameter("currentPage"));
@@ -47,19 +46,19 @@ public class DptController extends BaseController {
         params.put("pageSize", pageSize);
         params.put("deptName", deptName);
         params.put("deptCode", deptCode);
-        return dptService.findDptListByPg(params);
+        return dptService.selectDptPage(params);
     }
 
     @GetMapping("dpt/{id}")
     @ApiOperation("获取单个部门")
     @ApiImplicitParam(paramType = "path", name = "id", value = "部门编号", dataTypeClass = Long.class, required = true)
     @ApiResponses(
-            @ApiResponse(code = 0, message = "obj", response = Dpt.class)
+            @ApiResponse(code = 0, message = "obj", response = DptBean.class)
     )
-    public Map<String, Object> getDpt(@PathVariable("id") Long id) {
+    public Map<String, Object> selectDptById(@PathVariable("id") Long id) {
         log.info(">>>getDpt start");
         Map<String, Object> map = new HashMap<>();
-        Dpt res = dptService.findDptById(id);
+        DptBean res = dptService.selectDptById(id);
         map.put("obj", res);
         return ApiUtil.responseCode(map);
     }
@@ -69,7 +68,7 @@ public class DptController extends BaseController {
     @ApiImplicitParam(paramType = "path", name = "id", value = "部门编号", dataTypeClass = Long.class, required = true)
     public Map<String, Object> deleteDpt(@PathVariable("id") Long id) {
         log.info(">>>deleteDpt start");
-        dptService.deleteDpt(id);
+        dptService.deleteDpt(Arrays.asList(id));
         return ApiUtil.responseCode();
     }
 
@@ -81,15 +80,15 @@ public class DptController extends BaseController {
         log.info(">>>batchDeleteDpt start");
         String[] ids = request.getParameterValues("spIds[]");
         List<Long> idList = Stream.of(ids).map(Long::valueOf).collect(Collectors.toList());
-        int res = dptService.batchDeleteDpt(idList);
+        dptService.deleteDpt(idList);
         return ApiUtil.responseCode();
     }
 
     @PutMapping("dpt")
     @ApiOperation("修改部门")
-    public Map<String, Object> updateDpt(Dpt dpt) throws Exception{
+    public Map<String, Object> updateDpt(DptBean dptBean) {
         log.info(">>>updateDpt start");
-        dptService.saveDpt(dpt);
+        dptService.saveDpt(dptBean);
         return ApiUtil.responseCode();
     }
 }

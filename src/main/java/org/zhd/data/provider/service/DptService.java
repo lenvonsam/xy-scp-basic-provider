@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xy.api.dto.BaseListDTO;
-import org.zhd.data.provider.entity.Dpt;
+import org.zhd.data.provider.entity.DptBean;
 import org.zhd.data.provider.mapper.DptMapper;
 import org.zhd.data.provider.utils.DaoUtils;
 import org.zhd.data.provider.utils.DefaultEnum;
@@ -23,40 +23,40 @@ public class DptService {
     @Autowired
     private DptMapper dptMapper;
 
-    public Dpt saveDpt(Dpt dpt) throws Exception{
+    public DptBean saveDpt(DptBean dptBean){
         // 获取顶级部门
-        Dpt dptDefault = dptMapper.selectById(DefaultEnum.DPT.getValue());
+        DptBean dptDefault = dptMapper.selectById(DefaultEnum.DPT.getValue());
         if (dptDefault == null) {
-            throw new Exception("找不到顶级部门...");
+            throw new RuntimeException("找不到顶级部门...");
         }
         // 赋值
-        dpt.setMemberCode("0000");
-        dpt.setDeptCode(DaoUtils.getMaxCode("dept_code", "basic_dept"));
-        dpt.setDeptParent(dptDefault.getDeptCode());
-        dpt.setDeptNodecode(dptDefault.getDeptNodecode() + "." + dpt.getDeptCode());
+        dptBean.setMemberCode("0000");
+        dptBean.setDeptCode(DaoUtils.getMaxCode("dept_code", "basic_dept"));
+        dptBean.setDeptParent(dptDefault.getDeptCode());
+        dptBean.setDeptNodecode(dptDefault.getDeptNodecode() + "." + dptBean.getDeptCode());
 
         // 区分更新还是保存
         int res = 0;
-        if (dpt.getDeptId() == null) {
-            res = dptMapper.insert(dpt);
+        if (dptBean.getDeptId() == null) {
+            res = dptMapper.insert(dptBean);
         } else {
-            res = dptMapper.updateById(dpt);
+            res = dptMapper.updateById(dptBean);
         }
         if (res == 1) {
-            log.info(">>>保存成功,id为:" + dpt.getDeptId());
-            return dpt;
+            log.info(">>>保存成功,id为:" + dptBean.getDeptId());
+            return dptBean;
         } else {
             return null;
         }
     }
 
     @SuppressWarnings("unchecked")
-    public BaseListDTO<Dpt> findDptListByPg(Map<String, Object> params) {
+    public BaseListDTO<DptBean> selectDptPage(Map<String, Object> params) {
         Integer currentPage = (Integer) params.get("currentPage");
         Integer pageSize = (Integer) params.get("pageSize");
-        Page<Dpt> page = new Page<>(currentPage, pageSize);
+        Page<DptBean> page = new Page<>(currentPage, pageSize);
         // mp 条件构造器
-        QueryWrapper<Dpt> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<DptBean> queryWrapper = new QueryWrapper<>();
         String deptName = (String) params.get("deptName");
         String deptCode = (String) params.get("deptCode");
         if (deptName != null) {
@@ -65,31 +65,18 @@ public class DptService {
         if (deptCode != null) {
             queryWrapper.like("dept_code", deptCode);
         }
+        queryWrapper.ne("dept_id", "1");
         // 分页查询
-        IPage<Dpt> resPage = dptMapper.selectPage(page, queryWrapper);
+        IPage<DptBean> resPage = dptMapper.selectPage(page, queryWrapper);
         return new BaseListDTO(resPage.getRecords(), (int) resPage.getTotal());
     }
 
-    public int deleteDpt(Long id) {
-        int res = dptMapper.deleteById(id);
-        if (res != 1) {
-            return -1;
-        }
-        return 0;
+    public int deleteDpt(List<Long> ids) {
+        return dptMapper.deleteBatchIds(ids);
     }
 
-    public int batchDeleteDpt(List<Long> ids) {
-        for (Long id : ids) {
-            int res = dptMapper.deleteById(id);
-            if (res != 1) {
-                return -1;
-            }
-        }
-        return 0;
-    }
-
-    public Dpt findDptById(Long id) {
-        Dpt dpt = dptMapper.selectById(id);
+    public DptBean selectDptById(Long id) {
+        DptBean dpt = dptMapper.selectById(id);
         if (dpt == null) {
             return null;
         }

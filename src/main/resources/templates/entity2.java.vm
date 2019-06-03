@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 #end
 import com.baomidou.mybatisplus.annotation.KeySequence;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 
 /**
  * $!{table.comment}
@@ -43,6 +44,9 @@ public class ${entity} implements Serializable {
 #elseif(${field.convert})
     @TableId("${field.name}")
 #end
+#end
+#if(${field.propertyName} == "dataUpdatedate")
+    @TableField(fill = FieldFill.UPDATE)
 #end
 #if("$!field.comment" != "")
 #if(${swagger2})

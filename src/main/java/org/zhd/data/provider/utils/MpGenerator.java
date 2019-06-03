@@ -20,7 +20,7 @@ public class MpGenerator {
         gc.setAuthor("cth");
         gc.setOpen(false);
         gc.setMapperName(prefix + "Mapper");
-        gc.setEntityName(prefix);
+        gc.setEntityName(prefix + "Bean");
         gc.setControllerName(prefix + "Controller");
         gc.setServiceName(prefix + "Service");
         gc.setIdType(IdType.INPUT); //主键策略
