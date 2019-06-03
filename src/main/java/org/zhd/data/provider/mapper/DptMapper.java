@@ -5,12 +5,24 @@ import org.zhd.data.provider.entity.DptBean;
 
 import java.util.List;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 public interface DptMapper extends BaseMapper<DptBean> {
-    // 主键自增长 xml写法
+    /**
+     * 主键自增长 xml写法
+     * @param dptBean 部门
+     * @return int
+     */
     @Deprecated
     int insertDpt(DptBean dptBean);
 
-    // 动态sql写法
+    /**
+     * 动态sql写法
+     * @param dptBean 部门
+     * @return int
+     */
     @Deprecated
     List<DptBean> findDptList(DptBean dptBean);
 }

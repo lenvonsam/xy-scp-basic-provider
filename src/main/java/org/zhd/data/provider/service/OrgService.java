@@ -17,6 +17,10 @@ import org.zhd.data.provider.utils.DefaultEnum;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @Service
 public class OrgService {
     private Logger log = LoggerFactory.getLogger(OrgService.class);
@@ -69,7 +73,10 @@ public class OrgService {
         if (orgCode != null) {
             queryWrapper.like("org_code", orgCode);
         }
+        // 不显示顶级机构
         queryWrapper.ne("org_id", "1");
+        // 排序
+        queryWrapper.orderByDesc("org_id");
         // 分页查询
         IPage<OrgBean> resPage = orgMapper.selectPage(page, queryWrapper);
         return new BaseListDTO(resPage.getRecords(), (int) resPage.getTotal());

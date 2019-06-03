@@ -12,6 +12,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @RestController
 @RequestMapping("v1/basicInfo")
 @Api(tags = {"部门"}, description = "DptController")
@@ -34,7 +38,6 @@ public class DptController extends BaseController {
     })
     public BaseListDTO<DptBean> selectDptPage(HttpServletRequest request) {
         log.info(">>>listDpt start");
-        Map<String, Object> map = new HashMap<>();
         Integer currentPage = Integer.valueOf(request.getParameter("currentPage"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
         // 条件

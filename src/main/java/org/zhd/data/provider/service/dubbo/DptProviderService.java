@@ -8,6 +8,10 @@ import org.xy.api.dto.basic.DptDTO;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @Service(version = "${api.service.version}", application = "${dubbo.application.id}",
         protocol = "${dubbo.protocol.id}", registry = "${dubbo.registry.id}", group = "${dubbo.group}")
 public class DptProviderService implements DptDpi {

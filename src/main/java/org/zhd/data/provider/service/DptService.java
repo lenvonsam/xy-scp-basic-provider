@@ -16,6 +16,10 @@ import org.zhd.data.provider.utils.DefaultEnum;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @Service
 public class DptService {
     private Logger log = LoggerFactory.getLogger(DptService.class);
@@ -65,7 +69,10 @@ public class DptService {
         if (deptCode != null) {
             queryWrapper.like("dept_code", deptCode);
         }
+        // 不显示顶级部门
         queryWrapper.ne("dept_id", "1");
+        // 排序
+        queryWrapper.orderByDesc("dept_id");
         // 分页查询
         IPage<DptBean> resPage = dptMapper.selectPage(page, queryWrapper);
         return new BaseListDTO(resPage.getRecords(), (int) resPage.getTotal());

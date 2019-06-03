@@ -15,6 +15,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @RestController
 @RequestMapping("v1/basicInfo")
 @Api(tags = {"机构"}, description = "OrgController")
@@ -37,7 +41,6 @@ public class OrgController extends BaseController {
     })
     public BaseListDTO<OrgBean> selectOrgPage(HttpServletRequest request) {
         log.info(">>>listOrg start");
-        Map<String, Object> map = new HashMap<>();
         Integer currentPage = Integer.valueOf(request.getParameter("currentPage"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
         // 条件

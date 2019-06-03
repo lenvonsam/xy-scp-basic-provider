@@ -13,11 +13,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Date;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @EnableTransactionManagement
 @MapperScan({"org.zhd.data.provider.mapper"})
 @Configuration
 public class MybatisPlusConfig {
-    // 指定插入空值时的类型映射
+    /**
+     * 指定插入空值时的类型映射
+     */
     @Bean
     public ConfigurationCustomizer configurationCustomizer() {
         return (configuration) -> {
@@ -25,19 +31,25 @@ public class MybatisPlusConfig {
         };
     }
 
-    // mp 分页
+    /**
+     * mp 分页
+     */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
 
-    // mp oracle主键生成
+    /**
+     * mp oracle主键生成
+     */
     @Bean
     public OracleKeyGenerator oracleKeyGenerator(){
         return new OracleKeyGenerator();
     }
 
-    // mybatis-plus自动填充字段
+    /**
+     * mybatis-plus自动填充字段
+     */
     @Bean
     public MetaObjectHandler metaObjectHandler() {
         return new MetaObjectHandler() {

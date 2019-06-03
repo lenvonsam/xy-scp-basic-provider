@@ -8,6 +8,10 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @Data
 @TableName(value = "basic_org")
 @KeySequence(value = "BASIC_ORG_SEQ")

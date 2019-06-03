@@ -6,6 +6,10 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import org.springframework.context.annotation.Profile;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @Profile("test")
 public class MpGenerator {
     public static void main(String[] args) {
@@ -23,8 +27,10 @@ public class MpGenerator {
         gc.setEntityName(prefix + "Bean");
         gc.setControllerName(prefix + "Controller");
         gc.setServiceName(prefix + "Service");
-        gc.setIdType(IdType.INPUT); //主键策略
-        gc.setSwagger2(true); //实体属性 Swagger2 注解
+        //主键策略
+        gc.setIdType(IdType.INPUT);
+        //实体属性 Swagger2 注解
+        gc.setSwagger2(true);
         mpg.setGlobalConfig(gc);
 
         // 数据源配置

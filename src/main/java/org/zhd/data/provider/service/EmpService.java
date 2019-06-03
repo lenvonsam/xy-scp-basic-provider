@@ -15,6 +15,10 @@ import org.zhd.data.provider.utils.DaoUtils;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @Service
 public class EmpService {
     private Logger log = LoggerFactory.getLogger(EmpService.class);
@@ -57,6 +61,8 @@ public class EmpService {
         if (employeeCode != null) {
             queryWrapper.like("employee_code", employeeCode);
         }
+        // 排序
+        queryWrapper.orderByDesc("employee_id");
         // 分页查询
         IPage<EmpBean> resPage = empMapper.selectPage(page, queryWrapper);
         return new BaseListDTO( resPage.getRecords(), (int) resPage.getTotal());

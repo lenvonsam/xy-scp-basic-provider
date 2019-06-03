@@ -10,6 +10,10 @@ import org.xy.api.utils.ApiUtil;
 
 import java.util.Map;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @ControllerAdvice
 public class ExceptController {
     private Logger log = LoggerFactory.getLogger(ExceptController.class);
