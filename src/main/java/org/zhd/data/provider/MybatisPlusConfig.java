@@ -22,7 +22,7 @@ import java.util.Date;
 @Configuration
 public class MybatisPlusConfig {
     /**
-     * 指定插入空值时的类型映射
+     * 指定插入空值时的类型映射,oracle默认是Other
      */
     @Bean
     public ConfigurationCustomizer configurationCustomizer() {
