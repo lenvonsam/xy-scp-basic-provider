@@ -5,23 +5,29 @@ import org.springframework.web.bind.annotation.*;
 import org.xy.api.dto.BaseListDTO;
 import org.xy.api.utils.ApiUtil;
 import org.zhd.data.provider.controller.BaseController;
-import org.zhd.data.provider.entity.Org;
+import org.zhd.data.provider.entity.OrgBean;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @RestController
 @RequestMapping("v1/basicInfo")
+@Api(tags = {"机构"}, description = "OrgController")
 public class OrgController extends BaseController {
     @PostMapping("org")
     @ApiOperation("新增机构")
-    public Map<String, Object> saveOrg(Org org, HttpServletRequest request) throws Exception{
+    public Map<String, Object> saveOrg(OrgBean orgBean, HttpServletRequest request) {
         log.info(">>>saveOrg start");
-        orgService.saveOrg(org);
+        orgService.saveOrg(orgBean);
         return ApiUtil.responseCode();
     }
 
@@ -33,9 +39,8 @@ public class OrgController extends BaseController {
             @ApiImplicitParam(paramType = "query", name = "orgName", value = "名称", dataTypeClass = String.class),
             @ApiImplicitParam(paramType = "query", name = "orgCode", value = "编码", dataTypeClass = String.class)
     })
-    public BaseListDTO<Org> listOrg(HttpServletRequest request) {
+    public BaseListDTO<OrgBean> selectOrgPage(HttpServletRequest request) {
         log.info(">>>listOrg start");
-        Map<String, Object> map = new HashMap<>();
         Integer currentPage = Integer.valueOf(request.getParameter("currentPage"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
         // 条件
@@ -47,19 +52,19 @@ public class OrgController extends BaseController {
         params.put("pageSize", pageSize);
         params.put("orgName", orgName);
         params.put("orgCode", orgCode);
-        return orgService.findOrgListByPg(params);
+        return orgService.selectOrgPage(params);
     }
 
     @GetMapping("org/{id}")
     @ApiOperation("获取单个机构")
     @ApiImplicitParam(paramType = "path", name = "id", value = "机构编号", dataTypeClass = Long.class, required = true)
     @ApiResponses(
-            @ApiResponse(code = 0, message = "obj", response = Org.class)
+            @ApiResponse(code = 0, message = "obj", response = OrgBean.class)
     )
-    public Map<String, Object> getOrg(@PathVariable("id") Long id) {
+    public Map<String, Object> selectOrgById(@PathVariable("id") Long id) {
         log.info(">>>getOrg start");
         Map<String, Object> map = new HashMap<>();
-        Org res = orgService.findOrgById(id);
+        OrgBean res = orgService.selectOrgById(id);
         map.put("obj", res);
         return ApiUtil.responseCode(map);
     }
@@ -69,7 +74,7 @@ public class OrgController extends BaseController {
     @ApiImplicitParam(paramType = "path", name = "id", value = "机构编号", dataTypeClass = Long.class, required = true)
     public Map<String, Object> deleteOrg(@PathVariable("id") Long id) {
         log.info(">>>deleteOrg start");
-        orgService.deleteOrg(id);
+        orgService.deleteOrg(Arrays.asList(id));
         return ApiUtil.responseCode();
     }
 
@@ -81,15 +86,15 @@ public class OrgController extends BaseController {
         log.info(">>>batchDeleteOrg start");
         String[] ids = request.getParameterValues("spIds[]");
         List<Long> idList = Stream.of(ids).map(Long::valueOf).collect(Collectors.toList());
-        int res = orgService.batchDeleteOrg(idList);
+        orgService.deleteOrg(idList);
         return ApiUtil.responseCode();
     }
 
     @PutMapping("org")
     @ApiOperation("修改机构")
-    public Map<String, Object> updateOrg(Org org) throws Exception{
+    public Map<String, Object> updateOrg(OrgBean orgBean) {
         log.info(">>>updateOrg start");
-        orgService.saveOrg(org);
+        orgService.saveOrg(orgBean);
         return ApiUtil.responseCode();
     }
 }

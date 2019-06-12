@@ -8,6 +8,10 @@ import org.zhd.data.provider.mapper.CommonMapper;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @Component
 public class DaoUtils {
     private Logger log = LoggerFactory.getLogger(DaoUtils.class);
@@ -26,7 +30,9 @@ public class DaoUtils {
         return fillLeft(codeLong.toString());
     }
 
-    // 补位
+    /**
+     * 补位
+     */
     private static String fillLeft(String source) {
         StringBuilder ret = new StringBuilder();
         if (null == source) {

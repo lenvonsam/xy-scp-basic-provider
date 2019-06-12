@@ -11,7 +11,7 @@
         dept_isleaf, dept_parent, dept_nodecode, basic_share) values(#{deptId}, #{memberCode}, #{deptCode}, #{deptName},
         #{orgCode}, #{deptManager}, #{deptRemark}, #{deptIsleaf}, #{deptParent}, #{deptNodecode}, #{basicShare})
     </insert>
-    <select id="findDptList" resultType="org.zhd.data.provider.entity.Dpt">
+    <select id="findDptList" resultType="org.zhd.data.provider.entity.DptBean">
         select * from basic_dept where dept_name like '%' || #{deptName} || '%'
         <if test="deptCode != null">
             and dept_code like '%' || #{deptCode} || '%'

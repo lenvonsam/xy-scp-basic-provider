@@ -13,6 +13,10 @@ import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 import org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @Aspect
 @Configuration
 public class TransactionAdviceConfig {
@@ -25,23 +29,24 @@ public class TransactionAdviceConfig {
     @Bean
     public TransactionInterceptor txAdvice() {
 
-        DefaultTransactionAttribute txAttr_REQUIRED = new DefaultTransactionAttribute();
-        txAttr_REQUIRED.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        DefaultTransactionAttribute txRequired = new DefaultTransactionAttribute();
+        txRequired.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
-        DefaultTransactionAttribute txAttr_REQUIRED_READONLY = new DefaultTransactionAttribute();
-        txAttr_REQUIRED_READONLY.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-        txAttr_REQUIRED_READONLY.setReadOnly(true);
+        DefaultTransactionAttribute txRequiredReadonly = new DefaultTransactionAttribute();
+        txRequiredReadonly.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        txRequiredReadonly.setReadOnly(true);
 
         NameMatchTransactionAttributeSource source = new NameMatchTransactionAttributeSource();
 
-        source.addTransactionalMethod("get*", txAttr_REQUIRED_READONLY);
-        source.addTransactionalMethod("query*", txAttr_REQUIRED_READONLY);
-        source.addTransactionalMethod("find*", txAttr_REQUIRED_READONLY);
-        source.addTransactionalMethod("list*", txAttr_REQUIRED_READONLY);
-        source.addTransactionalMethod("count*", txAttr_REQUIRED_READONLY);
-        source.addTransactionalMethod("is*", txAttr_REQUIRED_READONLY);
+        source.addTransactionalMethod("get*", txRequiredReadonly);
+        source.addTransactionalMethod("query*", txRequiredReadonly);
+        source.addTransactionalMethod("find*", txRequiredReadonly);
+        source.addTransactionalMethod("list*", txRequiredReadonly);
+        source.addTransactionalMethod("select*", txRequiredReadonly);
+        source.addTransactionalMethod("count*", txRequiredReadonly);
+        source.addTransactionalMethod("is*", txRequiredReadonly);
         // 其他的需要支持事务
-        source.addTransactionalMethod("*", txAttr_REQUIRED);
+        source.addTransactionalMethod("*", txRequired);
 
         return new TransactionInterceptor(transactionManager, source);
     }

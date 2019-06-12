@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.zhd.data.provider.mapper.CommonMapper;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @RestController
 @RequestMapping("v1/test")
 @Profile("dev")

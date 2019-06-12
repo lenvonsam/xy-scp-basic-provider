@@ -11,19 +11,25 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 #end
 import com.baomidou.mybatisplus.annotation.KeySequence;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 
+## 表备注，作者，日期
 /**
  * $!{table.comment}
  * @author ${author}
  * @since ${date}
  */
+## 使用lombok
 #if(${entityLombokModel})
 @Data
 #end
+## 有NamingStrategy为true
 #if(${table.convert})
 @TableName("${table.name}")
 #end
+## 用的oracle需要KeySequence
 @KeySequence(value = "${table.name}_SEQ")
+## swagger2
 #if(${swagger2})
 @ApiModel(value="${entity}对象")
 #end
@@ -31,11 +37,8 @@ public class ${entity} implements Serializable {
 
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($field in ${table.fields})
+## 主键策略
 #if(${field.keyFlag})
-#set($keyPropertyName=${field.propertyName})
-#end
-#if(${field.keyFlag})
-## 主键
 #if(${field.keyIdentityFlag})
     @TableId(value = "${field.name}", type = IdType.AUTO)
 #elseif(!$null.isNull(${idType}) && "$!idType" != "")
@@ -44,6 +47,11 @@ public class ${entity} implements Serializable {
     @TableId("${field.name}")
 #end
 #end
+## 自动填充
+#if(${field.propertyName} == "dataUpdatedate")
+    @TableField(fill = FieldFill.UPDATE)
+#end
+## swagger2字段api
 #if("$!field.comment" != "")
 #if(${swagger2})
 #if(${field.propertyType} == "Long" || ${field.propertyType} == "Integer")

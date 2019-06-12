@@ -5,23 +5,29 @@ import org.springframework.web.bind.annotation.*;
 import org.xy.api.dto.BaseListDTO;
 import org.xy.api.utils.ApiUtil;
 import org.zhd.data.provider.controller.BaseController;
-import org.zhd.data.provider.entity.Emp;
+import org.zhd.data.provider.entity.EmpBean;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @RestController
 @RequestMapping("v1/basicInfo")
+@Api(tags = {"业务员"}, description = "EmpController")
 public class EmpController extends BaseController {
     @PostMapping("emp")
     @ApiOperation("新增业务员")
-    public Map<String, Object> saveEmp(Emp emp, HttpServletRequest request){
+    public Map<String, Object> saveEmp(EmpBean empBean, HttpServletRequest request){
         log.info(">>>saveEmp start");
-        empService.saveEmp(emp);
+        empService.saveEmp(empBean);
         return ApiUtil.responseCode();
     }
 
@@ -33,9 +39,8 @@ public class EmpController extends BaseController {
             @ApiImplicitParam(paramType = "query", name = "employeeName", value = "名称", dataTypeClass = String.class),
             @ApiImplicitParam(paramType = "query", name = "employeeCode", value = "编码", dataTypeClass = String.class)
     })
-    public BaseListDTO<Emp> listEmp(HttpServletRequest request) {
+    public BaseListDTO<EmpBean> selectEmpPage(HttpServletRequest request) {
         log.info(">>>listEmp start");
-        Map<String, Object> map = new HashMap<>();
         Integer currentPage = Integer.valueOf(request.getParameter("currentPage"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
         // 条件
@@ -47,19 +52,19 @@ public class EmpController extends BaseController {
         params.put("pageSize", pageSize);
         params.put("employeeName", employeeName);
         params.put("employeeCode", employeeCode);
-        return empService.findEmpListByPg(params);
+        return empService.selectEmpPage(params);
     }
 
     @GetMapping("emp/{id}")
     @ApiOperation("获取单个业务员")
     @ApiImplicitParam(paramType = "path", name = "id", value = "业务员编号", dataTypeClass = Long.class, required = true)
     @ApiResponses(
-            @ApiResponse(code = 0, message = "obj", response = Emp.class)
+            @ApiResponse(code = 0, message = "obj", response = EmpBean.class)
     )
-    public Map<String, Object> getEmp(@PathVariable("id") Long id) {
+    public Map<String, Object> selectEmpById(@PathVariable("id") Long id) {
         log.info(">>>getEmp start");
         Map<String, Object> map = new HashMap<>();
-        Emp res = empService.findEmpById(id);
+        EmpBean res = empService.selectEmpById(id);
         map.put("obj", res);
         return ApiUtil.responseCode(map);
     }
@@ -69,7 +74,7 @@ public class EmpController extends BaseController {
     @ApiImplicitParam(paramType = "path", name = "id", value = "业务员编号", dataTypeClass = Long.class, required = true)
     public Map<String, Object> deleteEmp(@PathVariable("id") Long id) {
         log.info(">>>deleteEmp start");
-        empService.deleteEmp(id);
+        empService.deleteEmp(Arrays.asList(id));
         return ApiUtil.responseCode();
     }
 
@@ -81,15 +86,15 @@ public class EmpController extends BaseController {
         log.info(">>>batchDeleteEmp start");
         String[] ids = request.getParameterValues("spIds[]");
         List<Long> idList = Stream.of(ids).map(Long::valueOf).collect(Collectors.toList());
-        int res = empService.batchDeleteEmp(idList);
+        empService.deleteEmp(idList);
         return ApiUtil.responseCode();
     }
 
     @PutMapping("emp")
     @ApiOperation("修改业务员")
-    public Map<String, Object> updateEmp(Emp emp){
+    public Map<String, Object> updateEmp(EmpBean empBean){
         log.info(">>>updateEmp start");
-        empService.saveEmp(emp);
+        empService.saveEmp(empBean);
         return ApiUtil.responseCode();
     }
 }

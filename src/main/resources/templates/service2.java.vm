@@ -1,13 +1,56 @@
 package ${package.Service};
 
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ${package.Mapper}.${table.mapperName};
 import ${package.Entity}.${entity};
-import ${superServiceClassPackage};
+import org.xy.api.dto.BaseListDTO;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.util.List;
+import java.util.Map;
 
 /**
- * $!{table.comment} 服务类
+ * $!{table.comment}
  * @author ${author}
  * @since ${date}
  */
-public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+@Service
+public class ${table.serviceName} {
+    private Logger log = LoggerFactory.getLogger(${table.serviceName}.class);
 
+    @Autowired
+    private ${table.mapperName} ${cfg.lowerCaseMapperName};
+
+    public ${entity} save${cfg.methodPrefix}(${entity} ${cfg.lowerCaseEntityName}){
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public BaseListDTO<${entity}> select${cfg.methodPrefix}Page(Map<String, Object> params) {
+        Integer currentPage = (Integer) params.get("currentPage");
+        Integer pageSize = (Integer) params.get("pageSize");
+        Page<${entity}> page = new Page<>(currentPage, pageSize);
+        // mp 条件构造器
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
+        // 分页查询
+        IPage<${entity}> resPage = ${cfg.lowerCaseMapperName}.selectPage(page, queryWrapper);
+        return new BaseListDTO(resPage.getRecords(), (int) resPage.getTotal());
+    }
+
+    public int delete${cfg.methodPrefix}(List<Long> ids) {
+        return ${cfg.lowerCaseMapperName}.deleteBatchIds(ids);
+    }
+
+    public ${entity} select${cfg.methodPrefix}ById(Long id) {
+        ${entity} ${cfg.lowerCaseEntityName} = ${cfg.lowerCaseMapperName}.selectById(id);
+        if (${cfg.lowerCaseEntityName} == null) {
+            return null;
+        }
+        return ${cfg.lowerCaseEntityName};
+    }
 }

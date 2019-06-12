@@ -11,9 +11,12 @@ import org.springframework.stereotype.Controller;
 #if(${superControllerClassPackage})
 import ${superControllerClassPackage};
 #end
+#if(${swagger2})
+import io.swagger.annotations.Api;
+#end
 
 /**
- * $!{table.comment} 前端控制器
+ * $!{table.comment}
  * @author ${author}
  * @since ${date}
  */
@@ -22,17 +25,15 @@ import ${superControllerClassPackage};
 #else
 @Controller
 #end
-@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
-#if(${kotlin})
-class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
-
-#else
+##@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+@RequestMapping("v1/basicInfo")
+#if(${swagger2})
+@Api(tags = {"$!{table.comment}"}, description = "${table.controllerName}")
+#end
 #if(${superControllerClass})
 public class ${table.controllerName} extends ${superControllerClass} {
 #else
-public class ${table.controllerName} {
+public class ${table.controllerName}{
 #end
 
 }
-
-#end

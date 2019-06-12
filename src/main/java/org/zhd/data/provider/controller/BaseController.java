@@ -8,6 +8,10 @@ import org.zhd.data.provider.service.DptService;
 import org.zhd.data.provider.service.EmpService;
 import org.zhd.data.provider.service.OrgService;
 
+/**
+ * @author cth
+ * @date 2019/06/03
+ */
 @Controller
 public class BaseController {
     protected Logger log = LoggerFactory.getLogger(BaseController.class);
