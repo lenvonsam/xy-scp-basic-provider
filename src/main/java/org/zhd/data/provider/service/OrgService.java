@@ -3,11 +3,13 @@ package org.zhd.data.provider.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.codingapi.txlcn.tc.annotation.LcnTransaction;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.xy.api.dto.BaseListDTO;
 import org.zhd.data.provider.entity.OrgBean;
 import org.zhd.data.provider.mapper.OrgMapper;
@@ -28,6 +30,8 @@ public class OrgService {
     @Autowired
     private OrgMapper orgMapper;
 
+    @Transactional
+    @LcnTransaction
     public OrgBean saveOrg(OrgBean orgBean){
         // 获取顶级部门
         OrgBean orgDefault = orgMapper.selectById(DefaultEnum.ORG.getValue());

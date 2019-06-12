@@ -27,6 +27,7 @@
         <velocity.version>2.1</velocity.version>
         <druid.version>1.1.10</druid.version>
         <xy-api.version>0.0.1-SNAPSHOT</xy-api.version>
+        <txlcn.version>5.0.2.RELEASE</txlcn.version>
     </properties>
 
     <dependencies>
@@ -121,6 +122,19 @@
             <artifactId>scp-data-api</artifactId>
             <version>${xy-api.version}</version>
         </dependency>
+        <!-- 分布式事务 -->
+        <dependency>
+            <groupId>com.codingapi.txlcn</groupId>
+            <artifactId>txlcn-tc</artifactId>
+            <version>${txlcn.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.codingapi.txlcn</groupId>
+            <artifactId>txlcn-txmsg-netty</artifactId>
+            <version>${txlcn.version}</version>
+        </dependency>
+        <!-- 测试 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
