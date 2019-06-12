@@ -27,6 +27,9 @@ public class OrgController extends BaseController {
     @ApiOperation("新增机构")
     public Map<String, Object> saveOrg(OrgBean orgBean, HttpServletRequest request) {
         log.info(">>>saveOrg start");
+        if (orgBean.getOrgId() != null) {
+            throw new RuntimeException("新增时id不为空...");
+        }
         orgService.saveOrg(orgBean);
         return ApiUtil.responseCode();
     }

@@ -27,6 +27,9 @@ public class EmpController extends BaseController {
     @ApiOperation("新增业务员")
     public Map<String, Object> saveEmp(EmpBean empBean, HttpServletRequest request){
         log.info(">>>saveEmp start");
+        if (empBean.getEmpId() != null) {
+            throw new RuntimeException("新增时id不为空...");
+        }
         empService.saveEmp(empBean);
         return ApiUtil.responseCode();
     }

@@ -24,6 +24,9 @@ public class DptController extends BaseController {
     @ApiOperation("新增部门")
     public Map<String, Object> saveDpt(DptBean dptBean){
         log.info(">>>saveDpt start");
+        if (dptBean.getDeptId() != null) {
+            throw new RuntimeException("新增时id不为空...");
+        }
         dptService.saveDpt(dptBean);
         return ApiUtil.responseCode();
     }
