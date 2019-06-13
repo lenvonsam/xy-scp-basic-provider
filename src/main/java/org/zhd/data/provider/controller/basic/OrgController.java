@@ -100,4 +100,15 @@ public class OrgController extends BaseController {
         orgService.saveOrg(orgBean);
         return ApiUtil.responseCode();
     }
+
+    @GetMapping("org/list")
+    @ApiOperation("查询机构列表，支持机构名称模糊查询")
+    @ApiImplicitParam(paramType = "query", name = "orgName", value = "机构名称", dataTypeClass = String.class)
+    public Map<String, Object> selectOrgList(String orgName) {
+        Map<String, Object> map = new HashMap<>();
+        List<OrgBean> res = orgService.selectOrgList(orgName);
+        map.put("total", res.size());
+        map.put("list", res);
+        return ApiUtil.responseCode(map);
+    }
 }

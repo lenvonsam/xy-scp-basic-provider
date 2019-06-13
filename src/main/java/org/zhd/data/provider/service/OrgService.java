@@ -97,4 +97,17 @@ public class OrgService {
         }
         return org;
     }
+
+    /**
+     * 根据名称查询机构列表
+     * @param orgName orgName支持模糊查询
+     * @return list
+     */
+    public List<OrgBean> selectOrgList(String orgName) {
+        QueryWrapper<OrgBean> queryWrapper = new QueryWrapper<>();
+        if (orgName != null) {
+            queryWrapper.like("org_name", orgName);
+        }
+        return orgMapper.selectList(queryWrapper);
+    }
 }

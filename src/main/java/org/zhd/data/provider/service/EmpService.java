@@ -79,4 +79,17 @@ public class EmpService {
         }
         return emp;
     }
+
+    /**
+     * 根据名称查询业务员列表
+     * @param empName empName支持模糊查询
+     * @return list
+     */
+    public List<EmpBean> selectEmpList(String empName) {
+        QueryWrapper<EmpBean> queryWrapper = new QueryWrapper<>();
+        if (empName != null) {
+            queryWrapper.like("employee_name", empName);
+        }
+        return empMapper.selectList(queryWrapper);
+    }
 }

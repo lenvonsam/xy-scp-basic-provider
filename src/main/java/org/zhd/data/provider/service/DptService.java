@@ -79,7 +79,15 @@ public class DptService {
     }
 
     public int deleteDpt(List<Long> ids) {
-        return dptMapper.deleteBatchIds(ids);
+        for (Long dptId: ids) {
+            // 部门下有员工不能删除
+            int count = dptMapper.countEmpByDptId(dptId);
+            if (count > 0) {
+                throw new RuntimeException("不能删除部门[" + dptId + "],原因是部门下有业务员");
+            }
+            dptMapper.deleteById(dptId);
+        }
+        return 1;
     }
 
     public DptBean selectDptById(Long id) {
@@ -88,5 +96,18 @@ public class DptService {
             return null;
         }
         return dpt;
+    }
+
+    /**
+     * 根据名称查询部门列表
+     * @param deptName deptName支持模糊查询
+     * @return list
+     */
+    public List<DptBean> selectDptList(String deptName) {
+        QueryWrapper<DptBean> queryWrapper = new QueryWrapper<>();
+        if (deptName != null) {
+            queryWrapper.like("dept_name", deptName);
+        }
+        return dptMapper.selectList(queryWrapper);
     }
 }

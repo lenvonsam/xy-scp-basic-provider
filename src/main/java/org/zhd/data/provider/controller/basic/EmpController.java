@@ -100,4 +100,15 @@ public class EmpController extends BaseController {
         empService.saveEmp(empBean);
         return ApiUtil.responseCode();
     }
+
+    @GetMapping("emp/list")
+    @ApiOperation("查询业务员列表，支持业务员名称模糊查询")
+    @ApiImplicitParam(paramType = "query", name = "empName", value = "业务员名称", dataTypeClass = String.class)
+    public Map<String, Object> selectEmpList(String empName) {
+        Map<String, Object> map = new HashMap<>();
+        List<EmpBean> res = empService.selectEmpList(empName);
+        map.put("total", res.size());
+        map.put("list", res);
+        return ApiUtil.responseCode(map);
+    }
 }

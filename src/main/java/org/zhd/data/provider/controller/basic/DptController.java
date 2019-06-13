@@ -97,4 +97,15 @@ public class DptController extends BaseController {
         dptService.saveDpt(dptBean);
         return ApiUtil.responseCode();
     }
+
+    @GetMapping("dpt/list")
+    @ApiOperation("查询部门列表，支持部门名称模糊查询")
+    @ApiImplicitParam(paramType = "query", name = "dptName", value = "部门名称", dataTypeClass = String.class)
+    public Map<String, Object> selectDptList(String dptName) {
+        Map<String, Object> map = new HashMap<>();
+        List<DptBean> res = dptService.selectDptList(dptName);
+        map.put("total", res.size());
+        map.put("list", res);
+        return ApiUtil.responseCode(map);
+    }
 }
