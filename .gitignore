@@ -30,3 +30,5 @@ HELP.md
 **/*/.DS_Store
 
 .svn/
+.txlcn/
+.txlcn/**

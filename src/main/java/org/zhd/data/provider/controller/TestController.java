@@ -2,6 +2,7 @@ package org.zhd.data.provider.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.codingapi.txlcn.tc.annotation.LcnTransaction;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,13 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("v1/test")
 @Profile("dev")
+@Slf4j
 public class TestController {
-    private Logger log = LoggerFactory.getLogger(TestController.class);
+//    private Logger log = LoggerFactory.getLogger(TestController.class);
     @Autowired
     private CommonMapper commonMapper;
 
-    @Reference(application = "extra", check = false, retries = -1, loadbalance = "txlcn_random", version = "${api.service.version}", group = "-samy")
+    @Reference(application = "extra", check = false, retries = -1, loadbalance = "txlcn_random", version = "${api.service.version}", group = "${dubbo.group}")
     private SmsDpi smsDpi;
 
 //    @Reference(check = false, retries = -1, loadbalance = "txlcn_random", version = "${api.service.version=}", application = "${dubbo.application.name}", group = "Test-cth-soa")

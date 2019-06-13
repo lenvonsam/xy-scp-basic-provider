@@ -148,6 +148,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <url>http://192.168.80.211:8080/manager/text</url>
+                    <server>zhdTomcatDeploy</server>
+                    <path>/basic-server</path>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
