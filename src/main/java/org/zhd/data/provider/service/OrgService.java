@@ -62,7 +62,6 @@ public class OrgService {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public BaseListDTO<OrgBean> selectOrgPage(Map<String, Object> params) {
         Integer currentPage = (Integer) params.get("currentPage");
         Integer pageSize = (Integer) params.get("pageSize");
@@ -83,7 +82,7 @@ public class OrgService {
         queryWrapper.orderByDesc("org_id");
         // 分页查询
         IPage<OrgBean> resPage = orgMapper.selectPage(page, queryWrapper);
-        return new BaseListDTO(resPage.getRecords(), (int) resPage.getTotal());
+        return new BaseListDTO<>(resPage.getRecords(), (int) resPage.getTotal());
     }
 
     public int deleteOrg(List<Long> ids) {

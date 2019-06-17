@@ -30,7 +30,6 @@ public class ${table.serviceName} {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     public BaseListDTO<${entity}> select${cfg.methodPrefix}Page(Map<String, Object> params) {
         Integer currentPage = (Integer) params.get("currentPage");
         Integer pageSize = (Integer) params.get("pageSize");
@@ -39,7 +38,7 @@ public class ${table.serviceName} {
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
         // 分页查询
         IPage<${entity}> resPage = ${cfg.lowerCaseMapperName}.selectPage(page, queryWrapper);
-        return new BaseListDTO(resPage.getRecords(), (int) resPage.getTotal());
+        return new BaseListDTO<>(resPage.getRecords(), (int) resPage.getTotal());
     }
 
     public int delete${cfg.methodPrefix}(List<Long> ids) {

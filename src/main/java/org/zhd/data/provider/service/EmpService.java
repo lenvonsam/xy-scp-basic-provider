@@ -46,7 +46,6 @@ public class EmpService {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public BaseListDTO<EmpBean> selectEmpPage(Map<String, Object> params) {
         Integer currentPage = (Integer) params.get("currentPage");
         Integer pageSize = (Integer) params.get("pageSize");
@@ -65,7 +64,7 @@ public class EmpService {
         queryWrapper.orderByDesc("employee_id");
         // 分页查询
         IPage<EmpBean> resPage = empMapper.selectPage(page, queryWrapper);
-        return new BaseListDTO( resPage.getRecords(), (int) resPage.getTotal());
+        return new BaseListDTO<>( resPage.getRecords(), (int) resPage.getTotal());
     }
 
     public int deleteEmp(List<Long> ids) {

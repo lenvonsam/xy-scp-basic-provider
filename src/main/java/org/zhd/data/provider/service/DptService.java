@@ -54,7 +54,6 @@ public class DptService {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public BaseListDTO<DptBean> selectDptPage(Map<String, Object> params) {
         Integer currentPage = (Integer) params.get("currentPage");
         Integer pageSize = (Integer) params.get("pageSize");
@@ -75,7 +74,7 @@ public class DptService {
         queryWrapper.orderByDesc("dept_id");
         // 分页查询
         IPage<DptBean> resPage = dptMapper.selectPage(page, queryWrapper);
-        return new BaseListDTO(resPage.getRecords(), (int) resPage.getTotal());
+        return new BaseListDTO<>(resPage.getRecords(), (int) resPage.getTotal());
     }
 
     public int deleteDpt(List<Long> ids) {
