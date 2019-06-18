@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import org.springframework.context.annotation.Profile;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,6 +73,7 @@ public class MpGenerator {
                 map.put("lowerCaseMapperName", lowCaseFirstChar(this.getConfig().getGlobalConfig().getMapperName()));
                 map.put("lowerCaseEntityName", lowCaseFirstChar(this.getConfig().getGlobalConfig().getEntityName()));
                 map.put("methodPrefix", prefix);
+                map.put("localDate", dateFormat());
                 this.setMap(map);
             }
         };
@@ -109,4 +112,9 @@ public class MpGenerator {
         return str.substring(0,1).toLowerCase() + str.substring(1);
     }
 
+    private static String dateFormat() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDateTime dateTime = LocalDateTime.now();
+        return dateTimeFormatter.format(dateTime);
+    }
 }

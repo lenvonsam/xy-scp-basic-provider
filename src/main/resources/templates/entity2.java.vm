@@ -17,7 +17,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 /**
  * $!{table.comment}
  * @author ${author}
- * @since ${date}
+ * @date ${cfg.localDate}
  */
 ## 使用lombok
 #if(${entityLombokModel})

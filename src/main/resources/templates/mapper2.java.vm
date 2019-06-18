@@ -6,7 +6,7 @@ import ${superMapperClassPackage};
 /**
  * $!{table.comment}
  * @author ${author}
- * @since ${date}
+ * @date ${cfg.localDate}
  */
 public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
 

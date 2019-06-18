@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * $!{table.comment}
  * @author ${author}
- * @since ${date}
+ * @date ${cfg.localDate}
  */
 @Service
 public class ${table.serviceName} {
