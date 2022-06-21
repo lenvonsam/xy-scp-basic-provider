@@ -18,7 +18,7 @@
     <properties>
         <java.version>1.8</java.version>
         <mybatis.version>3.1.1</mybatis.version>
-        <mysql-connector.version>5.1.39</mysql-connector.version>
+        <mysql-connector.version>8.0.28</mysql-connector.version>
         <oracle-connector.version>11.2.0.1.0</oracle-connector.version>
         <dubbo-spring-boot.version>0.2.0</dubbo-spring-boot.version>
         <fastjson.version>1.2.5</fastjson.version>
